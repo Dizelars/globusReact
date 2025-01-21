@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // import Globus_native from './components/Globus_native';
 import { Canvas } from '@react-three/fiber'
 import Experience from './components/Experience';
-// import AddLocationForm from './components/AddLocationForm';
+import AddLocationForm from './components/AddLocationForm';
 import { StrictMode } from 'react'
 import { Leva } from 'leva'
 
@@ -22,10 +22,17 @@ const App = () => {
     { id: 'Nya Delhi', lat: 28.614198, lng: 77.202425 },
   ]);
 
+// Dakar
+// 14.669213
+// -17.432573
 
-  // const handleAddLocation = (newPoint) => {
-  //   setPoints((prevPoints) => [...prevPoints, newPoint]);
-  // };
+
+  const handleAddLocation = (newPoint) => {
+    // setPoints((prevPoints) => [...prevPoints, newPoint]);
+    let newPointsData = [...points, newPoint];
+    // points = newPointsData;
+    console.log(newPointsData);
+  };
 
   // const handlePointClick = (id) => {
   //   alert(`Point clicked: ${id}`);
@@ -48,7 +55,7 @@ const App = () => {
           {/* <Experience points={points} onAddPoint={handlePointClick} /> */}
           <Experience points={points} />
         </Canvas>
-        {/* <AddLocationForm onAddLocation={handleAddLocation} /> */}
+        <AddLocationForm onAddLocation={handleAddLocation} />
       </StrictMode>
     </>
   );

@@ -7,10 +7,10 @@ const AddLocationForm = ({ onAddLocation }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddLocation({ lat: parseFloat(latitude), lng: parseFloat(longitude), id: name });
+    onAddLocation({ id: name, lat: parseFloat(latitude), lng: parseFloat(longitude) });
+    setName('');
     setLatitude('');
     setLongitude('');
-    setName('');
   };
 
   return (
@@ -19,16 +19,16 @@ const AddLocationForm = ({ onAddLocation }) => {
         <h1 className="title">Add a point to the globe</h1>
         <form onSubmit={handleSubmit} className="addLocations_form">
           <div>
+            <label>Name:</label>
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+          </div>
+          <div>
             <label>Latitude:</label>
             <input type="text" value={latitude} onChange={(e) => setLatitude(e.target.value)} required />
           </div>
           <div>
             <label>Longitude:</label>
             <input type="text" value={longitude} onChange={(e) => setLongitude(e.target.value)} required />
-          </div>
-          <div>
-            <label>Name:</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
           </div>
           <button type="submit">Add</button>
         </form>
