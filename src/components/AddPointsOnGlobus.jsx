@@ -6,6 +6,7 @@ export default function AddPointsOnGlobus({ towns, refSphere }) {
     if (!towns || !Array.isArray(towns)) return null;
 
     const createLine = (id, lat, lng) => {
+        // console.log(id)
         const coordSpherical = {
             lat: THREE.MathUtils.degToRad(90 - lat),
             lon: THREE.MathUtils.degToRad(lng),
@@ -66,9 +67,20 @@ export default function AddPointsOnGlobus({ towns, refSphere }) {
         );
     };
 
+    // Используем Set для проверки уникальности координат
+    const uniqueCoords = new Set();
+    const filteredTowns = towns.filter((town) => {
+        const coordKey = `${town.lat}-${town.lng}`;
+        if (uniqueCoords.has(coordKey)) {
+            return false; // Повторяющиеся координаты игнорируем
+        }
+        uniqueCoords.add(coordKey);
+        return true; // Уникальные координаты добавляем
+    });
+
     return (
         <group>
-            {towns.map((town) => createLine(town.id, town.lat, town.lng))}
+            {filteredTowns.map((town) => createLine(town.id, town.lat, town.lng))}
         </group>
     );
 }
