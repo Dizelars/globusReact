@@ -37,9 +37,9 @@ const App = () => {
     setPoints((prevPoints) => [...prevPoints, newPoint]);
   };
 
-  const handlePointClick = (id) => {
-    alert(`Point clicked: ${id}`);
-  };
+  // const handlePointClick = (id) => {
+  //   alert(`Point clicked: ${id}`);
+  // };
 
   return (
     <>
@@ -53,7 +53,8 @@ const App = () => {
               position: [ 12, 5, 4 ]
           } }
       >
-        <Experience points={points} onAddPoint={handlePointClick} />
+        {/* <Experience points={points} onAddPoint={handlePointClick} /> */}
+        <Experience points={points} />
       </Canvas>
       <AddLocationForm onAddLocation={handleAddLocation} />
     </>

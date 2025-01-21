@@ -1,14 +1,14 @@
 import * as THREE from 'three';
+import { Html } from '@react-three/drei';
+import { useState } from 'react';
 
-export default function AddPointsOnGlobus({ towns }) {
-    // Проверяем, что массив городов не пустой
+export default function AddPointsOnGlobus({ towns, refSphere }) {
     if (!towns || !Array.isArray(towns)) return null;
 
-    // Функция для преобразования координат в линию
     const createLine = (id, lat, lng) => {
         const coordSpherical = {
-            lat: THREE.MathUtils.degToRad(90 - lat), // Широта в радианах
-            lon: THREE.MathUtils.degToRad(lng),     // Долгота в радианах
+            lat: THREE.MathUtils.degToRad(90 - lat),
+            lon: THREE.MathUtils.degToRad(lng),
         };
 
         const positionVector = new THREE.Vector3().setFromSphericalCoords(
@@ -18,23 +18,57 @@ export default function AddPointsOnGlobus({ towns }) {
         );
 
         const start = new THREE.Vector3(0, 0, 0); // Центр глобуса
-        const end = positionVector.clone();      // Конечная точка линии
+        const end = positionVector.clone();
 
-        const direction = end.clone().sub(start).normalize();
-        const newEnd = end.clone().add(direction.multiplyScalar(0.5)); // Удлинение линии
+        // const direction = end.clone().sub(start).normalize();
+        // const newEnd = end.clone().add(direction.multiplyScalar(0.5)); // Удлинение линии
 
-        const lineGeom = new THREE.BufferGeometry().setFromPoints([start, newEnd]);
+        // const lineGeom = new THREE.BufferGeometry().setFromPoints([start, newEnd]);
+        const lineGeom = new THREE.BufferGeometry().setFromPoints([start, end]);
+
+        const [showDetails, setShowDetails] = useState(false);
 
         return (
             <line geometry={lineGeom} userData={{ id }} key={`${lat}-${lng}`}>
                 <lineBasicMaterial color="yellow" />
+                <Html
+                    position={end.toArray()} // Передаем координаты конца линии
+                    wrapperClass="point"
+                    center
+                    distanceFactor={7}
+                    occlude={[refSphere]}
+                >
+                    <div
+                        className='pulseTipon'
+                    />
+                    <div
+                        className="label"
+                        onMouseEnter={() => setShowDetails(true)} // Наведение
+                        onMouseLeave={() => setShowDetails(false)} // Отведение
+                        onClick={() => console.log(`Clicked on point ID: ${id}`)} // Клик
+                    >
+                        {showDetails ? (
+                            <>
+                                <div
+                                    className='text'
+                                >
+                                    <p className='city_name'>{id}</p>
+                                    <p className='city_latitude'>{lat}</p>
+                                    <p className='city_longitude'>{lng}</p>
+                                </div>
+                            </>
+                        ) : (
+                            <></>
+                        )}
+                    </div>
+                </Html>
             </line>
         );
     };
 
     return (
         <group>
-            {towns.map((town, index) => createLine(town.id, town.lat, town.lng))}
+            {towns.map((town) => createLine(town.id, town.lat, town.lng))}
         </group>
     );
 }

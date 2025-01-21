@@ -81,7 +81,7 @@ form button {
     top: 50%;
     left: 50%;
     z-index: 1;
-    opacity: 0;
+    /* opacity: 0; */
     transition: opacity .5s ease;
     cursor: pointer;
 }
@@ -109,17 +109,19 @@ form button {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
-    width: 18px;
-    height: 18px;
+    /* width: 18px;
+    height: 18px; */
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: #000000;
-    border: 2px solid #ffffff;
+    border: 1px solid #ffffff;
     color: #ffffff;
     cursor: pointer;
-    opacity: 0.4;
+    /* opacity: 0.4; */
     /* transition: transform 0.3s; */
     transition: opacity 0.3s;
-    pointer-events: none;
+    /* pointer-events: none; */
 }
 
 .point.visible .label:hover {
@@ -131,8 +133,10 @@ form button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-	width: 26px;
-	height: 26px;
+	/* width: 26px;
+	height: 26px; */
+    width: 12px;
+	height: 12px;
     pointer-events: none;
 }
 
@@ -155,29 +159,30 @@ form button {
     left: 50%;
     transform: translate(-50%, -130%);
     width: max-content;
-    padding: 8px 10px;
+    /* padding: 8px 10px; */
+    padding: 8px 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
     border-radius: 10px;
     background: #1a1a1a;
     color: #ffffff;
-    opacity: 0;
-    transition: opacity 0.3s;
+    /* opacity: 0;
+    transition: opacity 0.3s; */
     pointer-events: none;
 }
 
 .point .text .city_name {
     font-family: 'MoscowSans', sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 100;
 }
 
 .point .text .city_latitude,
 .point .text .city_longitude {
     font-family: 'MoscowSans', sans-serif;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 100;
 }
 
