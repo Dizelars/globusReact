@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import Globus_native from './components/Globus_native';
 import { Canvas } from '@react-three/fiber'
 import Experience from './components/Experience';
 import AddLocationForm from './components/AddLocationForm';
@@ -7,10 +6,9 @@ import { StrictMode } from 'react'
 import { Leva } from 'leva'
 
 const App = () => {
-  const [points, setPoints] = useState([
+  let [points, setPoints] = useState([
     { id: 'Moscow', lat: 55.7558, lng: 37.6173 },
     { id: 'Beijing', lat: 39.9042, lng: 116.4074 },
-    { id: 'Tokyo', lat: 35.681729, lng: 139.753927 },
     { id: 'Melbourne', lat: -37.813755, lng: 144.962672 },
     { id: 'Zanzibar', lat: -6.137971, lng: 39.359217 },
     { id: 'Shanghai', lat: 31.230860, lng: 121.468894 },
@@ -26,16 +24,20 @@ const App = () => {
 // 14.669213
 // -17.432573
 
-
   const handleAddLocation = (newPoint) => {
-    // setPoints((prevPoints) => [...prevPoints, newPoint]);
-    let newPointsData = [...points, newPoint];
-    console.log(newPointsData);
+    setPoints((prevPoints) => {
+      // Проверяем уникальность точки
+      const exists = prevPoints.some(
+        (point) => point.lat === newPoint.lat && point.lng === newPoint.lng
+      );
+      if (exists) return prevPoints; // Если точка уже существует, не обновляем состояние
+      return [...prevPoints, newPoint]; // Добавляем только уникальные точки
+    });
   };
 
-  // const handlePointClick = (id) => {
-  //   alert(`Point clicked: ${id}`);
-  // };
+  const handlePointClick = (id) => {
+    console.log(`Clicked on point ID: ${id}`);
+  };
 
   return (
     <>
@@ -51,8 +53,7 @@ const App = () => {
                 position: [ 12, 5, 4 ]
             } }
         >
-          {/* <Experience points={points} onAddPoint={handlePointClick} /> */}
-          <Experience points={points} />
+          <Experience points={points} handlePointClick={handlePointClick} />
         </Canvas>
         <AddLocationForm onAddLocation={handleAddLocation} />
       </StrictMode>

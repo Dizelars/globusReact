@@ -1,9 +1,9 @@
 import { useRef } from 'react'
 import { useTexture } from "@react-three/drei"
-import AddPointsOnGlobus from './AddPointsOnGlobus.jsx'
+import PointsOnGlobus from './PointsOnGlobus.jsx'
 import { button, useControls } from 'leva'
 
-export default function Globus(points) {
+export default function Globus({points, handlePointClick}) {
 
     const { positionGlob, rotationGlob, visible } = useControls('globus', {
         positionGlob:
@@ -27,15 +27,15 @@ export default function Globus(points) {
         map: 'textures/earth/day.jpg',
     })
 
-    let townData = points.points.points
-
-    // console.log(townData)
-
     return <group position={[ positionGlob.x, positionGlob.y, 0 ]} rotation={[ rotationGlob.x, rotationGlob.y, rotationGlob.z ]}>
-        <mesh rotation-y={ -Math.PI * 0.5 } ref={ sphere } visible={ visible }>
+        <mesh rotation-y={ -Math.PI * 0.5 } ref={ (el) => {
+            if (el) {
+                sphere.current = el
+            }
+        } } visible={ visible }>
             <sphereGeometry args={[ 2, 32, 32 ]}/>
             <meshStandardMaterial {...props} />
         </mesh>
-        <AddPointsOnGlobus towns={townData} refSphere={ sphere } />
+        <PointsOnGlobus points={points} refSphere={ sphere } handlePointClick={handlePointClick} />
     </group>
 }
