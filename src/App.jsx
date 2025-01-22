@@ -30,7 +30,6 @@ const App = () => {
   const handleAddLocation = (newPoint) => {
     // setPoints((prevPoints) => [...prevPoints, newPoint]);
     let newPointsData = [...points, newPoint];
-    // points = newPointsData;
     console.log(newPointsData);
   };
 
