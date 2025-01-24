@@ -15,7 +15,7 @@ const PointsOnGlobus = memo(function PointsOnGlobus({ points, refSphere, handleP
     setHoveredPoint((prev) => ({ ...prev, [id]: false }));
   };
 
-  const createLine = (id, lat, lng) => {
+  const createLine = (id, lat, lng, isNew) => {
     const coordSpherical = {
       lat: THREE.MathUtils.degToRad(90 - lat),
       lon: THREE.MathUtils.degToRad(lng),
@@ -27,16 +27,21 @@ const PointsOnGlobus = memo(function PointsOnGlobus({ points, refSphere, handleP
       coordSpherical.lon
     );
 
-    const start = new THREE.Vector3(0, 0, 0);
+    // const start = new THREE.Vector3(0, 0, 0);
     const end = positionVector.clone();
-    const lineGeom = new THREE.BufferGeometry().setFromPoints([start, end]);
+    // const lineGeom = new THREE.BufferGeometry().setFromPoints([start, end]);
 
     return (
-      <line geometry={lineGeom} userData={{ id }} key={`${lat}-${lng}`}>
-        <lineBasicMaterial color="yellow" />
+      // geometry={ lineGeom }
+      <line userData={{ id }} key={`${lat}-${lng}`}>
+        {/* <mesh position={end.toArray()}>
+            <sphereGeometry args={[0.03, 14, 14]} />
+            <meshStandardMaterial color="green" />
+        </mesh>  */}
+        {/* <lineBasicMaterial color="yellow" /> */}
         <Html
           position={end.toArray()}
-          wrapperClass="point"
+          wrapperClass={isNew ? 'point new-point' : 'point'}
           center
           distanceFactor={7}
           occlude={[refSphere]}
@@ -46,7 +51,7 @@ const PointsOnGlobus = memo(function PointsOnGlobus({ points, refSphere, handleP
             className="label"
             onMouseEnter={() => handleMouseEnter(id)} // Наведение
             onMouseLeave={() => handleMouseLeave(id)} // Отведение
-            onClick={() => handlePointClick(id)} // Клик
+            onClick={() => handlePointClick(id, end)} // Клик
           >
             {hoveredPoint[id] ? (
               <div className="text">
@@ -63,7 +68,7 @@ const PointsOnGlobus = memo(function PointsOnGlobus({ points, refSphere, handleP
 
   return (
     <group>
-      {points.map((point) => createLine(point.id, point.lat, point.lng))}
+      {points.map((point) => createLine(point.id, point.lat, point.lng, point.isNew))}
     </group>
   );
 });

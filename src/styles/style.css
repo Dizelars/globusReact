@@ -205,3 +205,12 @@ form button {
     -webkit-animation: none;
             animation: none;
 }
+
+
+
+
+.point.new-point .label,
+.point.new-point .pulseTipon::before,
+.point.new-point .text {
+    background: #ff0000;
+}

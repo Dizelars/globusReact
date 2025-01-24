@@ -8,9 +8,9 @@ export default function Globus({points, handlePointClick}) {
     const { positionGlob, rotationGlob, visible } = useControls('globus', {
         positionGlob:
         {
-            value: { x: 0, y: 0 },
+            value: { x: 0, y: 0, z: 0 },
             step: 0.01,
-            joystick: 'invertY'
+            // joystick: 'invertY'
         },
         rotationGlob:
         {
@@ -18,24 +18,43 @@ export default function Globus({points, handlePointClick}) {
             step: 0.01
         },
         visible: true,
-        clickMe: button(() => { console.log('ok') })
+        clickMe: button(() => {
+            groupGlobus.current.scale.x += 0.1;
+            groupGlobus.current.scale.y += 0.1;
+            groupGlobus.current.scale.z += 0.1;
+        })
     })
 
     const sphere = useRef()
+    const groupGlobus = useRef()
 
     const props = useTexture({
         map: 'textures/earth/day.jpg',
     })
 
-    return <group position={[ positionGlob.x, positionGlob.y, 0 ]} rotation={[ rotationGlob.x, rotationGlob.y, rotationGlob.z ]}>
-        <mesh rotation-y={ -Math.PI * 0.5 } ref={ (el) => {
-            if (el) {
-                sphere.current = el
-            }
-        } } visible={ visible }>
+    // const BasicParticles = () => {
+    //     // This reference gives us direct access to our points
+    //     const points = useRef();
+        
+    //     // You can see that, like our mesh, points also takes a geometry and a material,
+    //     // but a specific material => pointsMaterial
+    //     return (
+    //         <points ref={points}>
+    //             <sphereGeometry args={[1, 48, 48]} />
+    //             <pointsMaterial color="#5786F5" size={0.015} sizeAttenuation />
+    //         </points>
+    //     );
+    // };
+
+    return <group ref={ groupGlobus } position={[ positionGlob.x, positionGlob.y, positionGlob.z ]} rotation={[ rotationGlob.x, rotationGlob.y, rotationGlob.z ]}>
+        <mesh rotation-y={ -Math.PI * 0.5 } ref={ sphere } visible={ visible }>
             <sphereGeometry args={[ 2, 32, 32 ]}/>
             <meshStandardMaterial {...props} />
         </mesh>
-        <PointsOnGlobus points={points} refSphere={ sphere } handlePointClick={handlePointClick} />
+        {/* <points ref={ sphere } visible={ visible } >
+            <sphereGeometry args={[2, 64, 64]} />
+            <pointsMaterial size={0.1} sizeAttenuation />
+        </points> */}
+        <PointsOnGlobus points={ points } refSphere={ sphere } handlePointClick={handlePointClick} />
     </group>
 }
