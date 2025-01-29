@@ -12,12 +12,12 @@ export default function SceneWithGlobus({ points, handleAddLocation, handlePoint
             camera={ {
                 fov: 25,
                 near: 0.1,
-                far: 100,
-                position: [ 12, 5, 4 ]
+                far: 100
             } }
         >
+            {/* position: [ 12, 5, 4 ] */}
           <Experience points={points} handlePointClick={handlePointClick} />
         </Canvas>
-        <AddLocationForm onAddLocation={handleAddLocation} />
+        {/* <AddLocationForm onAddLocation={handleAddLocation} /> */}
     </>
 }
