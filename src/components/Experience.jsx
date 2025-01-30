@@ -1,8 +1,8 @@
-import { OrbitControls } from '@react-three/drei'
-import Globus from './Globus.jsx'
-import CustomGeometryParticles from './CustomGeometryParticles.jsx'
-import { useControls } from 'leva'
-import { Perf } from 'r3f-perf'
+import { OrbitControls } from '@react-three/drei';
+import Globus from './Globus.jsx';
+import CustomGeometryParticles from './CustomGeometryParticles.jsx';
+import { useControls } from 'leva';
+import { Perf } from 'r3f-perf';
 import * as THREE from 'three';
 
 export default function Experience({points, handlePointClick}) {
