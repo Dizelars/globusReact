@@ -1,21 +1,39 @@
-import * as THREE from 'three';
-import { Html } from '@react-three/drei';
-import { memo, useState } from 'react';
+import * as THREE from "three";
+import { Html } from "@react-three/drei";
+import { memo, useState } from "react";
+import { Point } from "../App";
+import { SphereType } from "./Globus";
+import { Vector3 } from "three";
 
-const PointsOnGlobus = memo(function PointsOnGlobus({ points, refSphere, handlePointClick }) {
-  if (!points || !Array.isArray(points)) return null;
+type Props = {
+  points: Point[];
+  refSphere: React.RefObject<SphereType>;
+  handlePointClick: ({ id, end }: { id: string; end: Vector3 }) => void;
+};
 
+const PointsOnGlobus = memo(function PointsOnGlobus({
+  points,
+  refSphere,
+  handlePointClick,
+}: Props) {
   const [hoveredPoint, setHoveredPoint] = useState({}); // Состояние видимости для каждой точки
 
-  const handleMouseEnter = (id) => {
+  if (!points || !Array.isArray(points)) return null;
+
+  const handleMouseEnter = (id: string) => {
     setHoveredPoint((prev) => ({ ...prev, [id]: true }));
   };
 
-  const handleMouseLeave = (id) => {
+  const handleMouseLeave = (id: string) => {
     setHoveredPoint((prev) => ({ ...prev, [id]: false }));
   };
 
-  const createLine = (id, lat, lng, isNew) => {
+  const createLine = (
+    id: string,
+    lat: number,
+    lng: number,
+    isNew?: boolean
+  ) => {
     const coordSpherical = {
       lat: THREE.MathUtils.degToRad(90 - lat),
       lon: THREE.MathUtils.degToRad(lng),
@@ -41,7 +59,7 @@ const PointsOnGlobus = memo(function PointsOnGlobus({ points, refSphere, handleP
         {/* <lineBasicMaterial color="yellow" /> */}
         <Html
           position={end.toArray()}
-          wrapperClass={isNew ? 'point new-point' : 'point'}
+          wrapperClass={isNew ? "point new-point" : "point"}
           center
           distanceFactor={7}
           occlude={[refSphere]}
@@ -51,7 +69,7 @@ const PointsOnGlobus = memo(function PointsOnGlobus({ points, refSphere, handleP
             className="label"
             onMouseEnter={() => handleMouseEnter(id)} // Наведение
             onMouseLeave={() => handleMouseLeave(id)} // Отведение
-            onClick={() => handlePointClick(id, end)} // Клик
+            onClick={() => handlePointClick({ id, end })} // Клик
           >
             {hoveredPoint[id] ? (
               <div className="text">
@@ -68,7 +86,9 @@ const PointsOnGlobus = memo(function PointsOnGlobus({ points, refSphere, handleP
 
   return (
     <group>
-      {points.map((point) => createLine(point.id, point.lat, point.lng, point.isNew))}
+      {points.map((point) =>
+        createLine(point.id, point.lat, point.lng, point.isNew)
+      )}
     </group>
   );
 });

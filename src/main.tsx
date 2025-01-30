@@ -11,7 +11,7 @@
 
 import "./index.css";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
+import App from "./App";
 import React from "react";
 // Импортируем Canvas из rtf
 // import { Canvas } from '@react-three/fiber'
