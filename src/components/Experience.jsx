@@ -41,8 +41,9 @@ export default function Experience({points, handlePointClick}) {
         }
     })
 
-    const { planeColor } = useControls('plane', {
-        planeColor: 'orange'
+    const { planeColor, planeVisible } = useControls('plane', {
+        planeColor: 'orange',
+        planeVisible: true
     })
 
     return <>
@@ -56,14 +57,14 @@ export default function Experience({points, handlePointClick}) {
 
         {/* <Globus points={points} handlePointClick={handlePointClick} /> */}
 
-        <mesh>
+        <mesh visible={ planeVisible }>
             <planeGeometry args={[1, 1]} />
             <meshStandardMaterial color={ planeColor } side={ THREE.DoubleSide } />
         </mesh>
 
         <CustomGeometryParticles 
             count={ particlesCount } 
-            shape="sphere" 
+            shape="box" 
             position={[ particlesPosition.x, particlesPosition.y, particlesPosition.z ]} 
             scale={ particlesScale }
             color={ particlesColor }

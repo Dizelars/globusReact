@@ -1,6 +1,6 @@
 import { Canvas } from '@react-three/fiber'
 import Experience from './Experience';
-import AddLocationForm from './AddLocationForm';
+// import AddLocationForm from './AddLocationForm';
 import { Leva } from 'leva'
 
 export default function SceneWithGlobus({ points, handleAddLocation, handlePointClick}) {
@@ -12,7 +12,8 @@ export default function SceneWithGlobus({ points, handleAddLocation, handlePoint
             camera={ {
                 fov: 25,
                 near: 0.1,
-                far: 100
+                far: 100,
+                position: [ 0, 0, 10 ]
             } }
         >
             {/* position: [ 12, 5, 4 ] */}

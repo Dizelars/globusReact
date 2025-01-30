@@ -71,8 +71,6 @@
 
 
 
-
-
 import React, { useState } from 'react';
 import { StrictMode } from 'react'
 import SceneWithGlobus from './components/SceneWithGlobus';
@@ -115,10 +113,12 @@ const App = () => {
     console.log(`Coordinate ID: ${pointCoordinates}`);
   };
 
+  const [ mode, setMode ] = useState('particles')
+
   return (
     <>
       <StrictMode>
-        <SceneWithGlobus points={ points } handleAddLocation={ handleAddLocation } handlePointClick={ handlePointClick } />
+        <SceneWithGlobus points={ points } mode={ mode } handleAddLocation={ handleAddLocation } handlePointClick={ handlePointClick } />
       </StrictMode>
     </>
   );
