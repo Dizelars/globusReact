@@ -24,9 +24,10 @@ export default function Experience({ points, handlePointClick }: Props) {
     particlesColor,
     particlesVisible,
     particlesPointSize,
+    particlesRadius,
   } = useControls("particles", {
     particlesCount: {
-      value: 10000,
+      value: 5000,
       step: 500,
       min: 1000,
       max: 10000,
@@ -49,6 +50,12 @@ export default function Experience({ points, handlePointClick }: Props) {
       step: 0.001,
       min: 0,
       max: 0.2,
+    },
+    particlesRadius: {
+      value: 2,
+      step: 1,
+      min: 1,
+      max: 10,
     },
   });
 
@@ -75,7 +82,7 @@ export default function Experience({ points, handlePointClick }: Props) {
 
       <CustomGeometryParticles
         count={particlesCount}
-        shape="box"
+        shape="sphere"
         position={[
           particlesPosition.x,
           particlesPosition.y,
@@ -85,6 +92,7 @@ export default function Experience({ points, handlePointClick }: Props) {
         color={particlesColor}
         visible={particlesVisible}
         pointSize={particlesPointSize}
+        radius={particlesRadius}
       />
     </>
   );
