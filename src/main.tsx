@@ -9,16 +9,17 @@
 //   </StrictMode>,
 // )
 
-import './index.css'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+import "./index.css";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import React from "react";
 // Импортируем Canvas из rtf
 // import { Canvas } from '@react-three/fiber'
 // import Experience from './components/Experience.jsx'
 // import * as THREE from 'three';
 
-const root = ReactDOM.createRoot(document.querySelector('#root'))
+const root = ReactDOM.createRoot(
+  document.querySelector("#root") as HTMLElement
+);
 
-root.render(
-  <App />
-)
+root.render(<App />);
