@@ -132,8 +132,10 @@ export default function CustomGeometryParticles({
     }
 
     (points.current.material as any).uniforms.uTime.value = clock.elapsedTime;
+    
     // Вращение шара с частицами
     points.current.rotation.y += delta * 0.1;
+    points.current.rotation.x += delta * 0.1;
   });
 
   return (
