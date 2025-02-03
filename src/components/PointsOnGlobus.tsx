@@ -2,7 +2,7 @@ import React from "react";
 import * as THREE from "three";
 import { Html } from "@react-three/drei";
 import { memo, useState } from "react";
-import { Point } from "../App";
+import { Point } from "app/App";
 import { SphereType } from "./Globus";
 import { Vector3 } from "three";
 

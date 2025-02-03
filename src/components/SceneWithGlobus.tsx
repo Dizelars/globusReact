@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import Experience from "./Experience";
 // import AddLocationForm from './AddLocationForm';
 import { Leva } from "leva";
-import { Point } from "../App";
+import { Point } from "app/App";
 import { Vector3 } from "three";
 
 type Props = {

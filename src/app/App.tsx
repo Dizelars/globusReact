@@ -68,8 +68,7 @@
 // export default App;
 
 import React, { useState } from "react";
-import { StrictMode } from "react";
-import SceneWithGlobus from "./components/SceneWithGlobus";
+import SceneWithGlobus from "components/SceneWithGlobus";
 import { Vector3 } from "three";
 import { Point } from "@react-three/drei";
 
@@ -122,16 +121,12 @@ const App = () => {
   const [mode, setMode] = useState("particles");
 
   return (
-    <>
-      <StrictMode>
-        <SceneWithGlobus
-          points={points}
-          mode={mode}
-          handleAddLocation={handleAddLocation}
-          handlePointClick={handlePointClick}
-        />
-      </StrictMode>
-    </>
+    <SceneWithGlobus
+      points={points}
+      mode={mode}
+      handleAddLocation={handleAddLocation}
+      handlePointClick={handlePointClick}
+    />
   );
 };
 
