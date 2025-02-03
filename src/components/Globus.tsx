@@ -2,7 +2,7 @@ import React, { createRef } from "react";
 import { useTexture } from "@react-three/drei";
 import PointsOnGlobus from "./PointsOnGlobus.js";
 import { button, useControls } from "leva";
-import { Point } from "../App";
+import { Point } from "app/App";
 import {
   BufferGeometry,
   Group,

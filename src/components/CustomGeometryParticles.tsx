@@ -8,8 +8,8 @@ import {
   Object3DEventMap,
   Points,
 } from "three";
-import vertexShader from "assets/shaders/particles/vertexShader.glsl";
-import fragmentShader from "assets/shaders/particles/fragmentShader.glsl";
+import vertexShader from "shared/shaders/particles/globusVertexShader.glsl";
+import fragmentShader from "shared/shaders/particles/globusFragmentShader.glsl";
 
 type Props = {
   count: number;

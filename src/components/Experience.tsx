@@ -5,7 +5,7 @@ import CustomGeometryParticles from "./CustomGeometryParticles";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
 import * as THREE from "three";
-import { Point } from "../App";
+import { Point } from "app/App";
 import { Vector3 } from "three";
 
 type Props = {
