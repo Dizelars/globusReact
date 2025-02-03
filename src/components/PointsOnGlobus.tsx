@@ -1,3 +1,4 @@
+import React from "react";
 import * as THREE from "three";
 import { Html } from "@react-three/drei";
 import { memo, useState } from "react";

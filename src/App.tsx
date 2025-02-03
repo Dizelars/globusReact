@@ -70,9 +70,8 @@
 import React, { useState } from "react";
 import { StrictMode } from "react";
 import SceneWithGlobus from "./components/SceneWithGlobus";
-import { Points, Vector3 } from "three";
-import { Point, PositionPoint } from "@react-three/drei";
-import { PointsProps } from "@react-three/fiber";
+import { Vector3 } from "three";
+import { Point } from "@react-three/drei";
 
 export type Point = {
   id: string;
@@ -82,7 +81,7 @@ export type Point = {
 };
 
 const App = () => {
-  let [points, setPoints] = useState<Point[]>([
+  const [points, setPoints] = useState<Point[]>([
     { id: "Moscow", lat: 55.7558, lng: 37.6173 },
     { id: "Beijing", lat: 39.9042, lng: 116.4074 },
     { id: "Melbourne", lat: -37.813755, lng: 144.962672 },
@@ -116,7 +115,7 @@ const App = () => {
   const handlePointClick = ({ id, end }: { id: string; end: Vector3 }) => {
     console.log("end", end);
     console.log(`Clicked on point ID: ${id}`);
-    let pointCoordinates = end.toArray();
+    const pointCoordinates = end.toArray();
     console.log(`Coordinate ID: ${pointCoordinates}`);
   };
 

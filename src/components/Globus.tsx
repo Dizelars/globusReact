@@ -1,4 +1,4 @@
-import { createRef } from "react";
+import React, { createRef } from "react";
 import { useTexture } from "@react-three/drei";
 import PointsOnGlobus from "./PointsOnGlobus.js";
 import { button, useControls } from "leva";
