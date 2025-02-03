@@ -33,7 +33,8 @@ mat3 rotation3dY(float angle) {
 void main() {
   float distanceFactor = pow(uRadius - distance(position, vec3(0.0)), 1.5);
   float size = distanceFactor * 1.5 + 3.0;
-  vec3 particlePosition = position * rotation3dY(uTime * 0.3 * distanceFactor);
+  // vec3 particlePosition = position * rotation3dY(uTime * 0.3 * distanceFactor);
+  vec3 particlePosition = position;
 
   vec4 modelPosition = modelMatrix * vec4(particlePosition, 1.0);
   vec4 viewPosition = viewMatrix * modelPosition;
