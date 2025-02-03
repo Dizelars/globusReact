@@ -8,8 +8,8 @@ import {
   Object3DEventMap,
   Points,
 } from "three";
-import vertexShader from "shared/globusScene/shaders/particles/globusVertexShader.glsl";
-import fragmentShader from "shared/globusScene/shaders/particles/globusFragmentShader.glsl";
+import vertexShader from "../shaders/particles/globusVertexShader.glsl";
+import fragmentShader from "../shaders/particles/globusFragmentShader.glsl";
 
 type Props = {
   count: number;
@@ -22,7 +22,7 @@ type Props = {
   radius: number;
 };
 
-export default function CustomGeometryParticles({
+export default function GlobusParticles({
   count,
   shape,
   position,
@@ -32,7 +32,6 @@ export default function CustomGeometryParticles({
   pointSize,
   radius,
 }: Props) {
-  // This reference gives us direct access to our points
   const points =
     createRef<
       Points<
@@ -41,38 +40,6 @@ export default function CustomGeometryParticles({
         Object3DEventMap
       >
     >();
-
-  // Generate our positions attributes array
-  // const particlesPosition = useMemo(() => {
-  //   const positions = new Float32Array(count * 3);
-
-  //   if (shape === "box") {
-  //     for (let i = 0; i < count; i++) {
-  //       let x = (Math.random() - 0.5) * 2;
-  //       let y = (Math.random() - 0.5) * 2;
-  //       let z = (Math.random() - 0.5) * 2;
-
-  //       positions.set([x, y, z], i * 3);
-  //     }
-  //   }
-
-  //   if (shape === "sphere") {
-  //     const distance = 1;
-
-  //     for (let i = 0; i < count; i++) {
-  //       const theta = THREE.MathUtils.randFloatSpread(360);
-  //       const phi = THREE.MathUtils.randFloatSpread(360);
-
-  //       let x = distance * Math.sin(theta) * Math.cos(phi);
-  //       let y = distance * Math.sin(theta) * Math.sin(phi);
-  //       let z = distance * Math.cos(theta);
-
-  //       positions.set([x, y, z], i * 3);
-  //     }
-  //   }
-
-  //   return positions;
-  // }, [count, shape]);
 
   // Массив атрибутов наших позиций для шейдера
   const particlesPosition = useMemo(() => {
