@@ -1,3 +1,4 @@
+import React from "react";
 import { OrbitControls } from "@react-three/drei";
 import Globus from "./Globus";
 import CustomGeometryParticles from "./CustomGeometryParticles";

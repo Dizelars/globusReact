@@ -1,4 +1,4 @@
-import { createRef, useMemo, useRef } from "react";
+import React, { createRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import {
@@ -83,9 +83,9 @@ export default function CustomGeometryParticles({
       const theta = THREE.MathUtils.randFloatSpread(360);
       const phi = THREE.MathUtils.randFloatSpread(360);
 
-      let x = distance * Math.sin(theta) * Math.cos(phi);
-      let y = distance * Math.sin(theta) * Math.sin(phi);
-      let z = distance * Math.cos(theta);
+      const x = distance * Math.sin(theta) * Math.cos(phi);
+      const y = distance * Math.sin(theta) * Math.sin(phi);
+      const z = distance * Math.cos(theta);
 
       positions.set([x, y, z], i * 3);
     }
