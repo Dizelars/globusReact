@@ -1,17 +1,48 @@
-import { useMemo, useRef } from "react";
+import React, { createRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import {
+  BufferGeometry,
+  Material,
+  NormalBufferAttributes,
+  Object3DEventMap,
+  Points,
+} from "three";
 import vertexShader from "../assets/shaders/particles/vertexShader.glsl";
 import fragmentShader from "../assets/shaders/particles/fragmentShader.glsl";
 
-export default function CustomGeometryParticles(props) {
-  const { count, shape, position, scale, color, visible, pointSize, radius } =
-    props;
+type Props = {
+  count: number;
+  shape: string;
+  color: string;
+  pointSize: number;
+  visible: boolean;
+  position: [number, number, number];
+  scale: number;
+  radius: number;
+};
 
-  // Прямой доступ к нашим точкам
-  const points = useRef();
+export default function CustomGeometryParticles({
+  count,
+  shape,
+  position,
+  scale,
+  color,
+  visible,
+  pointSize,
+  radius,
+}: Props) {
+  // This reference gives us direct access to our points
+  const points =
+    createRef<
+      Points<
+        BufferGeometry<NormalBufferAttributes>,
+        Material | Material[],
+        Object3DEventMap
+      >
+    >();
 
-  // Массив атрибутов наших позиций для атрибутов геометрии
+  // Generate our positions attributes array
   // const particlesPosition = useMemo(() => {
   //   const positions = new Float32Array(count * 3);
 
@@ -66,7 +97,7 @@ export default function CustomGeometryParticles(props) {
     }
 
     return positions;
-  }, [count, radius]);
+  }, [count]);
 
   // Шейдер
   const uniforms = useMemo(
@@ -96,8 +127,12 @@ export default function CustomGeometryParticles(props) {
     // points.current.geometry.attributes.position.needsUpdate = true;
 
     // Анимация частиц при помощи шейдеров
-    points.current.material.uniforms.uTime.value = clock.elapsedTime;
+    if (!points.current) {
+      return;
+    }
 
+    (points.current.material as any).uniforms.uTime.value = clock.elapsedTime;
+    // Вращение шара с частицами
     points.current.rotation.y += delta * 0.1;
   });
 
@@ -112,11 +147,11 @@ export default function CustomGeometryParticles(props) {
         />
       </bufferGeometry>
       {/* <pointsMaterial
-          size={ pointSize }
-          color={ color }
-          sizeAttenuation
-          depthWrite={ false }
-        /> */}
+        size={pointSize}
+        color={color}
+        sizeAttenuation
+        depthWrite={false}
+      /> */}
       <shaderMaterial
         depthWrite={false}
         fragmentShader={fragmentShader}
