@@ -1,5 +1,13 @@
-import React, { createRef, useMemo } from "react";
+import React, {
+  createRef,
+  useMemo,
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+} from "react";
 import { useFrame } from "@react-three/fiber";
+import gsap from "gsap";
 import * as THREE from "three";
 import {
   BufferGeometry,
@@ -8,8 +16,8 @@ import {
   Object3DEventMap,
   Points,
 } from "three";
-import vertexShader from "assets/shaders/particles/vertexShader.glsl";
-import fragmentShader from "assets/shaders/particles/fragmentShader.glsl";
+// import vertexShader from "assets/shaders/particles/vertexShader.glsl";
+// import fragmentShader from "assets/shaders/particles/fragmentShader.glsl";
 
 type Props = {
   count: number;
@@ -20,17 +28,21 @@ type Props = {
   position: [number, number, number];
   scale: number;
   radius: number;
+  onModeChange: (value: string) => void;
+  mode: string;
 };
 
 export default function CustomGeometryParticles({
   count,
   shape,
   position,
-  scale,
+  scale: initialScale,
   color,
   visible,
   pointSize,
   radius,
+  onModeChange,
+  mode
 }: Props) {
   // This reference gives us direct access to our points
   const points =
@@ -42,78 +54,82 @@ export default function CustomGeometryParticles({
       >
     >();
 
+  // const [targetScene, setSceneMode] = useState(mode);
+  const [targetScale, setTargetScale] = useState(initialScale);
+  const currentScale = useRef(initialScale);
+
   // Generate our positions attributes array
-  // const particlesPosition = useMemo(() => {
-  //   const positions = new Float32Array(count * 3);
-
-  //   if (shape === "box") {
-  //     for (let i = 0; i < count; i++) {
-  //       let x = (Math.random() - 0.5) * 2;
-  //       let y = (Math.random() - 0.5) * 2;
-  //       let z = (Math.random() - 0.5) * 2;
-
-  //       positions.set([x, y, z], i * 3);
-  //     }
-  //   }
-
-  //   if (shape === "sphere") {
-  //     const distance = 1;
-
-  //     for (let i = 0; i < count; i++) {
-  //       const theta = THREE.MathUtils.randFloatSpread(360);
-  //       const phi = THREE.MathUtils.randFloatSpread(360);
-
-  //       let x = distance * Math.sin(theta) * Math.cos(phi);
-  //       let y = distance * Math.sin(theta) * Math.sin(phi);
-  //       let z = distance * Math.cos(theta);
-
-  //       positions.set([x, y, z], i * 3);
-  //     }
-  //   }
-
-  //   return positions;
-  // }, [count, shape]);
-
-  // Массив атрибутов наших позиций для шейдера
   const particlesPosition = useMemo(() => {
     const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3); // Добавляем массив цветов
+
+    const color1 = new THREE.Color("#4423F0");
+    const color2 = new THREE.Color("#AEF21F");
+  
+    const distance = 1;
 
     for (let i = 0; i < count; i++) {
       const theta = THREE.MathUtils.randFloatSpread(360);
       const phi = THREE.MathUtils.randFloatSpread(360);
 
-      // Выставляем координаты в хаотичном порядке, заполняя весь шар
-      // const distance = Math.sqrt(Math.random()) * radius;
-      // let x = distance * Math.sin(theta) * Math.cos(phi)
-      // let y = distance * Math.sin(theta) * Math.sin(phi);
-      // let z = distance * Math.cos(theta);
-
-      // Выставляем координаты по линии радиуса окружности
-      let x = radius * Math.sin(theta) * Math.cos(phi);
-      let y = radius * Math.sin(theta) * Math.sin(phi);
-      let z = radius * Math.cos(theta);
+      let x = distance * Math.sin(theta) * Math.cos(phi);
+      let y = distance * Math.sin(theta) * Math.sin(phi);
+      let z = distance * Math.cos(theta);
 
       positions.set([x, y, z], i * 3);
-    }
 
-    return positions;
+      // Чередуем цвета
+      const color = i % 2 === 0 ? color1 : color2;
+      colors.set([color.r, color.g, color.b], i * 3);
+    }
+  
+    return { positions, colors };
   }, [count]);
 
+  // Массив атрибутов наших позиций для шейдера
+  // const particlesPosition = useMemo(() => {
+  //   const positions = new Float32Array(count * 3);
+
+  //   for (let i = 0; i < count; i++) {
+  //     const theta = THREE.MathUtils.randFloatSpread(360);
+  //     const phi = THREE.MathUtils.randFloatSpread(360);
+
+  //     // Выставляем координаты в хаотичном порядке, заполняя весь шар
+  //     const distance = Math.sqrt(Math.random()) * radius;
+  //     let x = distance * Math.sin(theta) * Math.cos(phi)
+  //     let y = distance * Math.sin(theta) * Math.sin(phi);
+  //     let z = distance * Math.cos(theta);
+
+  //     // Выставляем координаты по линии радиуса окружности
+  //     // let x = radius * Math.sin(theta) * Math.cos(phi);
+  //     // let y = radius * Math.sin(theta) * Math.sin(phi);
+  //     // let z = radius * Math.cos(theta);
+
+  //     positions.set([x, y, z], i * 3);
+  //   }
+
+  //   return positions;
+  // }, [count]);
+
   // Шейдер
-  const uniforms = useMemo(
-    () => ({
-      uTime: {
-        value: 0.0,
-      },
-      uRadius: {
-        value: radius,
-      },
-    }),
-    []
-  );
+  // const uniforms = useMemo(
+  //   () => ({
+  //     uTime: {
+  //       value: 0.0,
+  //     },
+  //     uRadius: {
+  //       value: radius,
+  //     },
+  //   }),
+  //   []
+  // );
 
   useFrame((state, delta) => {
-    const { clock } = state;
+    // const { clock } = state;
+
+    if (!points.current) {
+      return;
+    }
 
     // Анимация частиц при помощи атрибутов геометрии
     // for (let i = 0; i < count; i++) {
@@ -127,38 +143,88 @@ export default function CustomGeometryParticles({
     // points.current.geometry.attributes.position.needsUpdate = true;
 
     // Анимация частиц при помощи шейдеров
-    if (!points.current) {
-      return;
-    }
+    // Анимируем scale с плавной интерполяцией
+    currentScale.current = THREE.MathUtils.lerp(
+      currentScale.current,
+      targetScale,
+      0.1 // Чем меньше значение, тем медленнее анимация
+    );
 
-    (points.current.material as any).uniforms.uTime.value = clock.elapsedTime;
+    points.current.scale.set(
+      currentScale.current,
+      currentScale.current,
+      currentScale.current
+    );
+
+    // (points.current.material as any).uniforms.uTime.value = clock.elapsedTime;
     // Вращение шара с частицами
     points.current.rotation.y += delta * 0.1;
     points.current.rotation.x += delta * 0.1;
   });
 
+  // Функция для изменения состояния сцены
+  const changeSceneMode = useCallback((mode: string) => {
+    // setSceneMode(mod);
+    onModeChange(mode);
+  }, []);
+
+  // console.log(mode);
+
+  // Обработчик скролла
+  const handleScroll = (event: WheelEvent) => {
+    changeSceneMode(event.deltaY > 0 ? "particles" : "empty");
+  };
+
+  // Добавляем обработчик скролла
+  useEffect(() => {
+    window.addEventListener("wheel", handleScroll);
+    return () => {
+      window.removeEventListener("wheel", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (mode === "particles") {
+      setTargetScale(1); // Увеличиваем шар
+    } else {
+      setTargetScale(0.25); // Возвращаем шар к обычному размеру
+    }
+  }, [mode]);
+
   return (
-    <points ref={points} position={position} scale={scale} visible={visible}>
+    <points
+      ref={points}
+      position={position}
+      scale={initialScale}
+      visible={visible}
+    >
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={particlesPosition.length / 3}
-          array={particlesPosition}
+          count={particlesPosition.positions.length / 3}
+          array={particlesPosition.positions}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-color"
+          count={particlesPosition.colors.length / 3}
+          array={particlesPosition.colors}
           itemSize={3}
         />
       </bufferGeometry>
-      {/* <pointsMaterial
+      <pointsMaterial
         size={pointSize}
-        color={color}
+        // color={color}
+        vertexColors
         sizeAttenuation
         depthWrite={false}
-      /> */}
-      <shaderMaterial
+      />
+      {/* <shaderMaterial
         depthWrite={false}
         fragmentShader={fragmentShader}
         vertexShader={vertexShader}
         uniforms={uniforms}
-      />
+      /> */}
     </points>
   );
 }

@@ -1,7 +1,9 @@
 uniform float uTime;
 uniform float uRadius;
 
-// Source: https://github.com/dmnsgn/glsl-rotate/blob/main/rotation-3d-y.glsl.js
+varying float vDistance;
+varying float vRadius;
+
 mat3 rotation3dY(float angle) {
   float s = sin(angle);
   float c = cos(angle);
@@ -12,7 +14,6 @@ mat3 rotation3dY(float angle) {
   );
 }
 
-
 // void main() {
 //   // Кручение из центра сферы (быстрее)
 //   // float distanceFactor = pow(uRadius - distance(position, vec3(0.0)), 1.5);
@@ -21,6 +22,8 @@ mat3 rotation3dY(float angle) {
 //   // Кручение из центра сферы (медленнее)
 //   float distanceFactor = pow(uRadius - distance(position, vec3(0.0)), 2.0);
 //   vec3 particlePosition = position * rotation3dY(uTime * 0.2 * distanceFactor);
+
+//   vDistance = distanceFactor;
 
 //   vec4 modelPosition = modelMatrix * vec4(particlePosition, 1.0);
 //   vec4 viewPosition = viewMatrix * modelPosition;
@@ -35,6 +38,8 @@ void main() {
   float size = distanceFactor * 1.5 + 3.0;
   // vec3 particlePosition = position * rotation3dY(uTime * 0.3 * distanceFactor);
   vec3 particlePosition = position;
+
+  vDistance = distanceFactor;
 
   vec4 modelPosition = modelMatrix * vec4(particlePosition, 1.0);
   vec4 viewPosition = viewMatrix * modelPosition;

@@ -119,7 +119,7 @@ const App = () => {
     console.log(`Coordinate ID: ${pointCoordinates}`);
   };
 
-  const [mode, setMode] = useState("particles");
+  const [mode, setMode] = useState("empty");
 
   return (
     <>
@@ -127,6 +127,7 @@ const App = () => {
         <SceneWithGlobus
           points={points}
           mode={mode}
+          onModeChange={setMode}
           handleAddLocation={handleAddLocation}
           handlePointClick={handlePointClick}
         />
