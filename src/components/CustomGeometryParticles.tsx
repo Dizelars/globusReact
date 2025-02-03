@@ -8,8 +8,8 @@ import {
   Object3DEventMap,
   Points,
 } from "three";
-import vertexShader from "../assets/shaders/particles/vertexShader.glsl";
-import fragmentShader from "../assets/shaders/particles/fragmentShader.glsl";
+import vertexShader from "assets/shaders/particles/vertexShader.glsl";
+import fragmentShader from "assets/shaders/particles/fragmentShader.glsl";
 
 type Props = {
   count: number;
@@ -132,7 +132,6 @@ export default function CustomGeometryParticles({
     }
 
     (points.current.material as any).uniforms.uTime.value = clock.elapsedTime;
-    
     // Вращение шара с частицами
     points.current.rotation.y += delta * 0.1;
     points.current.rotation.x += delta * 0.1;
