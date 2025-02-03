@@ -21,7 +21,8 @@
     "react-dom": "^18.3.1",
     "reset-css": "^5.0.2",
     "three": "^0.172.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
