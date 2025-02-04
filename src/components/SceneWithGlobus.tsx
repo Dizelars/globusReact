@@ -11,6 +11,7 @@ type Props = {
   mode: string;
   handleAddLocation: (value: Point) => void;
   handlePointClick: ({ id, end }: { id: string; end: Vector3 }) => void;
+  onModeChange: (value: string) => void;
 };
 
 export default function SceneWithGlobus({
@@ -18,6 +19,7 @@ export default function SceneWithGlobus({
   mode,
   handleAddLocation,
   handlePointClick,
+  onModeChange,
 }: Props) {
   return (
     <>
@@ -33,7 +35,12 @@ export default function SceneWithGlobus({
         }}
       >
         {/* position: [ 12, 5, 4 ] */}
-        <Experience points={points} handlePointClick={handlePointClick} />
+        <Experience
+          points={points}
+          handlePointClick={handlePointClick}
+          mode={mode}
+          onModeChange={onModeChange}
+        />
       </Canvas>
       {/* <AddLocationForm onAddLocation={handleAddLocation} /> */}
     </>

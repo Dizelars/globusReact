@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const AddLocationForm = ({ onAddLocation }) => {
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
-  const [name, setName] = useState('');
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [name, setName] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddLocation({ id: name, lat: parseFloat(latitude), lng: parseFloat(longitude) });
-    setName('');
-    setLatitude('');
-    setLongitude('');
+    onAddLocation({
+      id: name,
+      lat: parseFloat(latitude),
+      lng: parseFloat(longitude),
+    });
+    setName("");
+    setLatitude("");
+    setLongitude("");
   };
 
   return (
@@ -20,15 +24,30 @@ const AddLocationForm = ({ onAddLocation }) => {
         <form onSubmit={handleSubmit} className="addLocations_form">
           <div>
             <label>Name:</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
           </div>
           <div>
             <label>Latitude:</label>
-            <input type="text" value={latitude} onChange={(e) => setLatitude(e.target.value)} required />
+            <input
+              type="text"
+              value={latitude}
+              onChange={(e) => setLatitude(e.target.value)}
+              required
+            />
           </div>
           <div>
             <label>Longitude:</label>
-            <input type="text" value={longitude} onChange={(e) => setLongitude(e.target.value)} required />
+            <input
+              type="text"
+              value={longitude}
+              onChange={(e) => setLongitude(e.target.value)}
+              required
+            />
           </div>
           <button type="submit">Add</button>
         </form>
